@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <h1>Hospitals</h1>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <ul>
+        {% for hospital in hospitals %}
+        <li>
+            <a href="{% url 'hospital_form' hospital.slug %}">{{ hospital.diaplay_name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+</body>
