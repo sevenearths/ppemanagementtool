@@ -21,7 +21,7 @@ from . import views
 urlpatterns = [
     path('', views.loginView),
     path('login/', views.loginView, name='login'),
-    path('login/(?P<username>\w{0,30})/(?P<password>\w{0,60})/', views.loginView),
+    path('login/(<str:username>/<str:password>)/', views.loginView),
     path('hospital/', include('hospital.urls')),
     path('admin/', admin.site.urls),
 ]

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.humanize.templatetags.humanize import naturaltime
 
 class Hospital(models.Model):
     name = models.CharField(max_length=30)
@@ -20,6 +21,7 @@ class Stock(models.Model):
 
 class Inventory(models.Model):
     SUPPLIES_CHOICE = (
+        ('?', 'Unknown'),
         ('1', '1 day'),
         ('2', '2 days'),
         ('2-3', '2-3 days'),
@@ -28,6 +30,12 @@ class Inventory(models.Model):
     hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True, null=True)
-    levels = models.PositiveIntegerField()
-    supplies_left = models.CharField(max_length=3, choices=SUPPLIES_CHOICE)
+    stock_levels = models.PositiveIntegerField()
+    supplies_left = models.CharField(max_length=3, choices=SUPPLIES_CHOICE, blank=False, default='?')
     other = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        ordering = ['created']
+
+    def __str__(self):
+        return self.hospital.name+' - '+self.stock.name+' ('+naturaltime(self.created)+')'
