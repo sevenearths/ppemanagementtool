@@ -36,6 +36,8 @@ class Inventory(models.Model):
 
     class Meta:
         ordering = ['created']
+        # Usage: Inventory.objects.latest()
+        get_latest_by = 'created'
 
     def __str__(self):
         return self.hospital.name+' - '+self.stock.name+' ('+naturaltime(self.created)+')'
